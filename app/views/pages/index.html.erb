@@ -1,0 +1,82 @@
+<% content_for :top_content do %>
+  <div class="jumbotron">
+    <div class="container">      
+      <% if !user_signed_in? %>
+      <h1>Welcome!</h1>
+      <p>Register to get started.</p>
+      <p>
+        <%= link_to 'Register', new_user_registration_path, class: 'btn btn-primary btn-lg' %>
+      </p>
+      <% else %>
+      <h1>Welcome!</h1>
+      <div class="row">
+        <%= form_tag("/search", method: "post") do %>          
+          <div class="col-md-3">
+            <p>Choose a profile name:</p>    
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="insert username or #id" name="search_name"/>
+          </div>
+          <div class="col-md-2"><input type="submit" class="btn" value="search"/></div>
+        <% end %>
+      </div>
+      <div class="row">
+        <% if @message!=nil %>
+          <div class="col-md-6">
+            <p><%=@message%></p>
+            <% if @twitter_user==nil %>
+              <p>No results found</p>
+            <% else %>
+            <table class="table table-striped table-bordered">
+              <tr>                
+                <td><strong>Name:</strong></td>
+                <td><%=@twitter_user.name%></td>
+              </tr>
+              <tr>
+                <td><strong>Username:</strong></td>
+                <td><%=@twitter_user.screen_name%></td>
+              </tr>
+              <tr>
+                <td><strong>Avatar:</strong></td>
+                <td><img style="border-radius: 10px;" src="<%=@twitter_user.profile_image_url%>"></td>
+              </tr>
+              <tr>
+                <td><strong>Followers:</strong></td>
+                <td><%=@twitter_user.followers_count%></td>
+              </tr>
+              
+              <tr>
+                <% if @twitter_user.followers.count == 0 %>
+                <td colspan="2">
+                  
+                  <%=form_tag("/follow", method: "post") do %>
+                    <input type="hidden" name="follow_id" value="<%=@twitter_user.id%>"/>
+                    <button type="submit" value="" class="btn btn-success">Fetch Followers</button>  
+                  <% end %>                  
+                </td>
+                <% else %>
+                <td colspan="2">
+                  <table class="table table-condensed table-striped">
+                    <thead><tr><th>Name</th><th>Username</th><th>Avatar</th></tr></thead>
+                  <% @twitter_user.followers.each do |f| %>
+                    <tr>
+                      <td><%=f.name%></td>
+                      <td><%=f.screen_name%></td>
+                      <td><img style="border-radius: 10px;" src="<%=f.profile_image_url%>"></td>
+                    </tr>
+                  <% end %>
+                  </table>
+                </td>
+              <% end %>
+              </tr>
+            </table>
+            <%=debug(@searched_user)%>
+            <%=debug(@twitter_user)%>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>
