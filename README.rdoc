@@ -1,28 +1,24 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is just a demo application created by Gianluca Ciambellotti while studying ruby on rails!
 
-Things you may want to cover:
+The purpose of this application is to let the user search for a twitter account, and then, let him read all the user followers data using twitter api. The user need to login to use the application.
 
-* Ruby version
+Gem used:
+  devise for authentication
+  delayed_job for background processing 
+  bootstrap-sass for styling
+  jquery-turbolinks for i don't know..
+  twitter for twitter api
+  figaro for storing credentials and other confidential informations
+  
+To use the application you need to:
+  configure your smtp service in config/environments/development.rb
+  create application.yml in config and add: 
+      CONSUMER_KEY
+      CONSUMER_SECRET
+      YOUR_ACCESS_TOKEN
+      YOUR_ACCESS_SECRET
+    (taken from your twitter application credentials)
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
 <tt>rake doc:app</tt>.
